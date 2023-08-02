@@ -26,8 +26,9 @@ const App = () => {
   }
 
   const filterInfo = users.filter( 
-    (data) => data.name.toLowerCase().includes(valueInput.toLowerCase()) ||
-     data.email.toLowerCase().includes(valueInput.toLowerCase()) 
+    (find) => 
+    find.name.toLowerCase().includes(valueInput.toLowerCase()) ||
+    find.email.toLowerCase().includes(valueInput.toLowerCase()) 
   );
 
   console.log(filterInfo);
