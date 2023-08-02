@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const App = () => {
   const [users, setUsers] = useState([]);
+  const [filterUsers, setFilterUsers] = useState();
 
   useEffect(() => {
     fetchUsers();
@@ -9,7 +10,7 @@ const App = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await get('https://jsonplaceholder.typicode.com/users');
+      const response = await fetch('https://jsonplaceholder.typicode.com/users');
       if (!response.ok) {
         throw new Error('Failed to fetch users');
       }
@@ -20,19 +21,24 @@ const App = () => {
     }
   };
 
+  const handleInputChange = (event)=>{
+    setFilterUsers(event.target.value)
+  }
+
   return (
     <div>
       <h1>Lista de Usuarios</h1>
       <input
         type="text"
         placeholder="Buscar por nombre o correo electrónico"
+        onChange={() => handleInputChange(event)}
       />
       <ul>
         {users.map((user) => (
-          <li key={user.id}>
+          (!filterUsers ||user.name.toLowerCase().includes(filterUsers.toLowerCase()) || user.email.toLowerCase().includes(filterUsers.toLowerCase())) && (<li key={user.id}>
             <strong>{user.name}</strong>
             <p>{user.email}</p>
-          </li>
+          </li>)
         ))}
       </ul>
     </div>
@@ -40,4 +46,3 @@ const App = () => {
 };
 
 export default App;
-
